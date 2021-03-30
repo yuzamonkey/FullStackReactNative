@@ -1,16 +1,101 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
+import theme from '../theme';
+import ThemeText from './Text';
+
+const styles = StyleSheet.create({
+  layout: {
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    padding: 10
+  },
+  upperLayout: {
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  image: {
+    width: 50,
+    height: 50,
+    borderRadius: 5,
+    margin: 5,
+  },
+  repository: {
+    margin: 5,
+    marginBottom: 10,
+  },
+  languageOuterLayout: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  languageLayout: {
+    backgroundColor: '#0366d6',
+    color: 'white',
+    padding: 5,
+    marginBottom: 5,
+    marginTop: 5,
+    borderRadius: 3,
+  },
+  lowerLayout: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  statistic: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+})
 
 const RepositoryItem = ({ item }) => {
+
+  const countModifier = (count) => {
+    if (count >= 1000) {
+      return `${Math.round(count/100) / 10}k`
+    }
+    return `${count}`
+  }
+
   return (
-    <View>
-      <Text>Full name: {item.fullName}</Text>
-      <Text>Description: {item.description}</Text>
-      <Text>Language: {item.language}</Text>
-      <Text>Stars: {item.stargazersCount}</Text>
-      <Text>Forks: {item.forksCount}</Text>
-      <Text>Reviews: {item.reviewCount}</Text>
-      <Text>Ratings: {item.ratingAverage}</Text>
+    <View style={styles.layout}>
+      <View style={styles.upperLayout}>
+        <View>
+          <Image style={styles.image}
+            source={{ uri: item.ownerAvatarUrl }}
+          />
+        </View>
+        <View style={styles.repository}>
+          <ThemeText fontSize='subheading' fontWeight='bold'>{item.fullName}</ThemeText>
+          <ThemeText color='textSecondary'>{item.description}</ThemeText>
+          <View style={styles.languageOuterLayout}>
+            <View style={styles.languageLayout}>
+              <ThemeText color='white'>{item.language}</ThemeText>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View style={styles.lowerLayout}>
+        <View style={styles.statistic}>
+          <ThemeText fontWeight='bold'>{countModifier(item.stargazersCount)}</ThemeText>
+          <ThemeText color='textSecondary'>Stars</ThemeText>
+        </View>
+        <View style={styles.statistic}>
+          <ThemeText fontWeight='bold'>{countModifier(item.forksCount)}</ThemeText>
+          <ThemeText color='textSecondary'>Forks</ThemeText>
+        </View>
+        <View style={styles.statistic}>
+          <ThemeText fontWeight='bold'>{countModifier(item.reviewCount)}</ThemeText>
+          <ThemeText color='textSecondary'>Reviews</ThemeText>
+        </View>
+        <View style={styles.statistic}>
+          <ThemeText fontWeight='bold'>{countModifier(item.ratingAverage)}</ThemeText>
+          <ThemeText color='textSecondary'>Ratings</ThemeText>
+        </View>
+      </View>
     </View>
   )
 };
