@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: theme.fonts.main,
     fontSize: theme.fontSizes.header,
+    fontWeight: theme.fontWeights.bold,
     color: theme.colors.appBarText,
     padding: 10
   }
