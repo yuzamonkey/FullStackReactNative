@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   formStyle: {
-    borderColor: '#b8b8b8',
     borderWidth: 1,
     borderRadius: 5,
     marginLeft: 10,
@@ -18,6 +17,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 5,
     padding: 10,
+  },
+  validFormStyle: {
+    borderColor: '#b8b8b8',
+  },
+  invalidFormStyle: {
+    borderColor: '#d73a4a',
+  },
+  errorText: {
+    color: '#d73a4a',
+    marginLeft: 10
   }
 });
 
@@ -32,7 +41,9 @@ const FormikTextInput = ({ name, ...props }) => {
         onBlur={() => helpers.setTouched(true)}
         value={field.value}
         error={showError}
-        style={styles.formStyle}
+        style={showError 
+          ? [styles.formStyle, styles.invalidFormStyle] 
+          : [styles.formStyle, styles.validFormStyle]}
         {...props}
       />
       {showError && <Text style={styles.errorText}>{meta.error}</Text>}
