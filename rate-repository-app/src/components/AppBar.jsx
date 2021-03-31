@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 import theme from '../theme';
 import Tab from './AppBarTab.jsx'
@@ -17,10 +17,14 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
-  return <View style={styles.container}>
-      <Tab text="Repositories" path="/"/>
-      <Tab text="Sign in" path="/signin"/>
-  </View>;
+  return (
+    <View style={styles.container}>
+      <ScrollView horizontal>
+        <Tab text="Repositories" path="/" />
+        <Tab text="Sign in" path="/signin" />
+      </ScrollView>
+    </View>
+  );
 };
 
 export default AppBar;
