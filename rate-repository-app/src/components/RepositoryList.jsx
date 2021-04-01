@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import useRepositories from '../hooks/useRepositories'
 import { FlatList, View, StyleSheet } from 'react-native';
 import RepositoryItem from './RepositoryItem'
 
@@ -8,6 +9,54 @@ const styles = StyleSheet.create({
   },
 });
 
+const ItemSeparator = () => <View style={styles.separator} />;
+
+const RepositoryList = () => {
+  const { repositories } = useRepositories();
+  console.log("REPOS in RepositoryList", repositories)
+
+  const repositoryNodes = repositories
+    ? repositories.edges.map(edge => edge.node)
+    : [];
+
+  const renderItem = ({ item }) => (
+    <RepositoryItem item={item} />
+  );
+
+  return (
+    <FlatList
+      data={repositoryNodes}
+      ItemSeparatorComponent={ItemSeparator}
+      renderItem={renderItem}
+      keyExtractor={item => item.id}
+    />
+  )
+}
+
+export default RepositoryList;
+
+/*
+const RepositoryList = () => {
+
+const renderItem = ({ item }) => (
+<RepositoryItem item={item} />
+);
+
+return (
+<FlatList
+  data={repositories}
+  ItemSeparatorComponent={ItemSeparator}
+  renderItem={renderItem}
+  keyExtractor={item => item.id}
+/>
+);
+};
+
+export default RepositoryList;
+*/
+
+
+/*
 const repositories = [
   {
     id: 'jaredpalmer.formik',
@@ -54,23 +103,4 @@ const repositories = [
     ownerAvatarUrl: 'https://avatars3.githubusercontent.com/u/13142323?v=4',
   },
 ];
-
-const ItemSeparator = () => <View style={styles.separator} />;
-
-const RepositoryList = () => {
-
-  const renderItem = ({ item }) => (
-    <RepositoryItem item={item} />
-  );
-
-  return (
-    <FlatList
-      data={repositories}
-      ItemSeparatorComponent={ItemSeparator}
-      renderItem={renderItem}
-      keyExtractor={item => item.id}
-    />
-  );
-};
-
-export default RepositoryList;
+*/
