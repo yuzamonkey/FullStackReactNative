@@ -8,6 +8,7 @@ import theme from '../theme'
 import * as yup from 'yup';
 import useSignIn from '../hooks/useSignIn';
 import AuthStorage from '../utils/authStorage';
+import { useHistory } from 'react-router-native';
 
 const styles = StyleSheet.create({
   layout: {
@@ -48,14 +49,14 @@ const validationSchema = yup.object().shape({
 
 const SignIn = () => {
   const [signIn] = useSignIn();
+  const history = useHistory();
 
   const onSubmit = async (values) => {
-    console.log("SUBMIT", values)
     const { username, password } = values;
-
     try {
       const { data } = await signIn({ username, password });
       console.log("SUCCESS", data);
+      history.push("/");
     } catch (e) {
       console.log("ERROR ", e);
     }
