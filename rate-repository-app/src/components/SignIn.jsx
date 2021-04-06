@@ -1,13 +1,11 @@
 import React from 'react';
 import Text from './Text';
 import FormikTextInput from './FormikTextInput'
-import TextInput from './TextInput'
 import { View, Pressable, StyleSheet } from 'react-native';
 import { Formik } from 'formik'
 import theme from '../theme'
 import * as yup from 'yup';
 import useSignIn from '../hooks/useSignIn';
-import AuthStorage from '../utils/authStorage';
 import { useHistory } from 'react-router-native';
 
 const styles = StyleSheet.create({

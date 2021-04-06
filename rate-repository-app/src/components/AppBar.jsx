@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 import theme from '../theme';
 import Tab from './AppBarTab.jsx'
@@ -22,13 +22,14 @@ const AppBar = () => {
   const { data } = useQuery(GET_AUTHORIZED_USER_DATA)
   console.log("AUTHORIZED USER DATA", data)
 
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <Tab text="Repositories" path="/" />
-        {data
-          ? <Tab text="Sign out" path="/signout" />
-          : <Tab text="Sign in" path="/signin" />
+        {data === undefined || data.authorizedUser === null
+          ? <Tab text="Sign in" path="/signin" />
+          : <Tab text="Sign out" path="/signout" />
         }
       </ScrollView>
     </View>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, Pressable, View } from 'react-native'
+import { Text, StyleSheet } from 'react-native'
 import { Link } from 'react-router-native'
 import theme from '../theme'
 
