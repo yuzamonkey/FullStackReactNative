@@ -3,6 +3,8 @@ import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 import theme from '../theme';
 import Tab from './AppBarTab.jsx'
+import { useQuery } from '@apollo/client'
+import { GET_AUTHORIZED_USER_DATA } from '../graphql/queries';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,11 +19,17 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
+  const { data } = useQuery(GET_AUTHORIZED_USER_DATA)
+  console.log("AUTHORIZED USER DATA", data)
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <Tab text="Repositories" path="/" />
-        <Tab text="Sign in" path="/signin" />
+        {data
+          ? <Tab text="Sign out" path="/signout" />
+          : <Tab text="Sign in" path="/signin" />
+        }
       </ScrollView>
     </View>
   );
