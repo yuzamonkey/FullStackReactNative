@@ -68,30 +68,30 @@ const RepositoryItem = ({ item }) => {
           />
         </View>
         <View style={styles.repository}>
-          <ThemeText fontSize='subheading' fontWeight='bold'>{item.fullName}</ThemeText>
-          <ThemeText color='textSecondary'>{item.description}</ThemeText>
+          <ThemeText fontSize='subheading' fontWeight='bold' testID="fullName">{item.fullName}</ThemeText>
+          <ThemeText color='textSecondary' testID="description">{item.description}</ThemeText>
           <View style={styles.languageOuterLayout}>
             <View style={styles.languageLayout}>
-              <ThemeText color='white'>{item.language}</ThemeText>
+              <ThemeText color='white' testID="language">{item.language}</ThemeText>
             </View>
           </View>
         </View>
       </View>
       <View style={styles.lowerLayout}>
         <View style={styles.statistic}>
-          <ThemeText fontWeight='bold'>{countModifier(item.stargazersCount)}</ThemeText>
+          <ThemeText fontWeight='bold' testID="stars">{countModifier(item.stargazersCount)}</ThemeText>
           <ThemeText color='textSecondary'>Stars</ThemeText>
         </View>
         <View style={styles.statistic}>
-          <ThemeText fontWeight='bold'>{countModifier(item.forksCount)}</ThemeText>
+          <ThemeText fontWeight='bold' testID="forks">{countModifier(item.forksCount)}</ThemeText>
           <ThemeText color='textSecondary'>Forks</ThemeText>
         </View>
         <View style={styles.statistic}>
-          <ThemeText fontWeight='bold'>{countModifier(item.reviewCount)}</ThemeText>
+          <ThemeText fontWeight='bold' testID="reviews">{countModifier(item.reviewCount)}</ThemeText>
           <ThemeText color='textSecondary'>Reviews</ThemeText>
         </View>
         <View style={styles.statistic}>
-          <ThemeText fontWeight='bold'>{countModifier(item.ratingAverage)}</ThemeText>
+          <ThemeText fontWeight='bold' testID="ratings">{countModifier(item.ratingAverage)}</ThemeText>
           <ThemeText color='textSecondary'>Ratings</ThemeText>
         </View>
       </View>
