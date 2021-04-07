@@ -59,21 +59,25 @@ const SignIn = () => {
       console.log("ERROR ", e);
     }
   }
+  return (
+    <SignInContainer onSubmit={onSubmit}/>
+  )
+};
 
+export const SignInContainer = ({onSubmit}) => {
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
       {({ handleSubmit }) =>
         <SignInForm onSubmit={handleSubmit} />}
     </Formik>
   )
-};
-
-const SignInForm = ({ onSubmit }) => {
+}
+export const SignInForm = ({ onSubmit }) => {
   return (
     <View style={styles.layout}>
-      <FormikTextInput name="username" placeholder="Username" />
-      <FormikTextInput name="password" placeholder="Password" secureTextEntry />
-      <Pressable onPress={onSubmit}>
+      <FormikTextInput name="username" placeholder="Username" testID="usernameField" />
+      <FormikTextInput name="password" placeholder="Password" secureTextEntry testID="passwordField" />
+      <Pressable onPress={onSubmit} testID="submitButton">
         <View style={styles.submitButton}>
           <Text style={styles.submitText}>Sign in</Text>
         </View>

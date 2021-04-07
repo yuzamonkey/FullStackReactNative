@@ -1,7 +1,8 @@
 import React from 'react'
-import { render } from '@testing-library/react-native';
+import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
 import { RepositoryListContainer } from '../components/RepositoryList';
 import { Text, View } from 'react-native';
+import { SignInContainer } from '../components/SignIn'
 
 const Greeting = ({ name }) => {
   return (
@@ -12,12 +13,6 @@ const Greeting = ({ name }) => {
   );
 };
 
-describe('Example', () => {
-  it('works', () => {
-    expect(1).toBe(1);
-  });
-});
-
 describe('Greeting', () => {
   it('renders a greeting message based on the name prop', () => {
     const { debug, getByTestId } = render(<Greeting name="Kalle" />);
@@ -26,6 +21,11 @@ describe('Greeting', () => {
   });
 });
 
+describe('Example', () => {
+  it('works', () => {
+    expect(1).toBe(1);
+  });
+});
 
 describe('RepositoryList', () => {
   describe('RepositoryListContainer', () => {
@@ -72,11 +72,11 @@ describe('RepositoryList', () => {
           },
         ],
       };
-      // Add your test code here
+
       const { debug, getAllByTestId } = render(<RepositoryListContainer repositories={repositories} />);
       //debug();
       expect(getAllByTestId('repositoryListContainer')).toBeDefined()
-      
+
       expect(getAllByTestId('fullName')[0]).toHaveTextContent('jaredpalmer/formik')
       expect(getAllByTestId('description')[0]).toHaveTextContent('Build forms in React, without the tears')
       expect(getAllByTestId('language')[0]).toHaveTextContent('TypeScript')
@@ -84,7 +84,7 @@ describe('RepositoryList', () => {
       expect(getAllByTestId('forks')[0]).toHaveTextContent('1.6k')
       expect(getAllByTestId('reviews')[0]).toHaveTextContent(3)
       expect(getAllByTestId('ratings')[0]).toHaveTextContent(88)
-      
+
       expect(getAllByTestId('fullName')[1]).toHaveTextContent('async-library/react-async')
       expect(getAllByTestId('description')[1]).toHaveTextContent('Flexible promise-based React data loader')
       expect(getAllByTestId('language')[1]).toHaveTextContent('JavaScript')
@@ -93,6 +93,29 @@ describe('RepositoryList', () => {
       expect(getAllByTestId('reviews')[1]).toHaveTextContent(3)
       expect(getAllByTestId('ratings')[1]).toHaveTextContent(72)
 
+    });
+  });
+});
+
+describe('SignIn', () => {
+  describe('SignInContainer', () => {
+    it('calls onSubmit function with correct arguments when a valid form is submitted', async () => {
+      const onSubmit = jest.fn();
+      const { getByTestId } = render(<SignInContainer onSubmit={onSubmit} />);
+
+      await act(async () => {
+        await fireEvent.changeText(getByTestId('usernameField'), 'kalle');
+        await fireEvent.changeText(getByTestId('passwordField'), 'password');
+        await fireEvent.press(getByTestId('submitButton'));
+      });
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1);
+        expect(onSubmit.mock.calls[0][0]).toEqual({
+          username: 'kalle',
+          password: 'password',
+        });
+      });
     });
   });
 });
