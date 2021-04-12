@@ -5,6 +5,7 @@ import RepositoryList from './RepositoryList';
 import AppBar from './AppBar';
 import SignIn from './SignIn';
 import SignOut from './SignOut';
+import RepositoryView from './RepositoryView';
 
 
 const styles = StyleSheet.create({
@@ -28,6 +29,9 @@ const Main = () => {
         </Route>
         <Route path="/signout" exact>
           <SignOut />
+        </Route>
+        <Route path="/:id">
+          <RepositoryView />
         </Route>
         <Redirect to="/" />
       </Switch>
