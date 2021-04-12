@@ -21,7 +21,6 @@ export const RepositoryListContainer = ({ repositories }) => {
     : [];
 
   const handleRepositoryItemPress = (id) => {
-    console.log("HANDLE PRESS CALLED FOR ID: ", id)
     history.push(`/${id}`)
   }
 
