@@ -3,7 +3,6 @@ import useRepositories from '../hooks/useRepositories'
 import { FlatList, View, StyleSheet, Pressable } from 'react-native';
 import { useHistory } from 'react-router-native'
 import RepositoryItem from './RepositoryItem'
-import RepositoryView from './RepositoryView';
 
 const styles = StyleSheet.create({
   separator: {

@@ -30,23 +30,29 @@ const styles = StyleSheet.create({
   }
 })
 
-const RepositoryView = () => {
-  const { id } = useParams()
-  const { repository } = useRepository(id);
+const SingleRepositoryItem = ({repository}) => {
+  // const { id } = useParams()
+  // const { repository } = useRepository(id);
 
   const handleButtonPress = () => {
     Linking.openURL(`https://github.com/${repository.fullName}`);
   }
   return (
-    <View style={styles.layout}>
-      {repository && <RepositoryItem item={repository} />}
-      <Pressable onPress={handleButtonPress}>
-        <View style={styles.linkButton}>
-          <Text style={styles.linkText}>Open in GitHub</Text>
-        </View>
-      </Pressable>
+    <View>
+      <View style={styles.layout}>
+        {repository && <RepositoryItem item={repository} />}
+        <Pressable onPress={handleButtonPress}>
+          <View style={styles.linkButton}>
+            <Text style={styles.linkText}>Open in GitHub</Text>
+          </View>
+        </Pressable>
+      </View>
+      <View>
+        
+      </View>
     </View>
+
   )
 }
 
-export default RepositoryView
+export default SingleRepositoryItem
