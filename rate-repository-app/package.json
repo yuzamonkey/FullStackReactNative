@@ -17,11 +17,14 @@
     "transformIgnorePatterns": [
       "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*|react-router-native)"
     ],
-    "setupFilesAfterEnv": ["<rootDir>/setupTests.js"]
+    "setupFilesAfterEnv": [
+      "<rootDir>/setupTests.js"
+    ]
   },
   "dependencies": {
     "@apollo/client": "^3.3.13",
     "@react-native-async-storage/async-storage": "^1.15.1",
+    "date-fns": "^2.20.2",
     "dotenv": "^8.2.0",
     "expo": "~40.0.0",
     "expo-status-bar": "~1.0.3",

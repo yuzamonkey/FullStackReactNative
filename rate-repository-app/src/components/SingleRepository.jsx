@@ -3,12 +3,13 @@ import SingleRepositoryItem from './SingleRepositoryItem'
 import { useParams } from 'react-router-native'
 import useRepository from '../hooks/useRepository'
 import { FlatList, Text, StyleSheet, View } from 'react-native'
+import theme from '../theme'
+import { format } from 'date-fns'
 
 const styles = StyleSheet.create({
   reviewItem: {
     display: 'flex',
     flexDirection: 'row',
-    minHeight: 100,
     backgroundColor: 'white',
     marginTop: 10,
   },
@@ -30,11 +31,19 @@ const styles = StyleSheet.create({
   },
   rating: {
     fontSize: '1.3em',
+    fontWeight: 'bold',
     color: '#0366d6',
   },
   reviewLayout: {
-    backgroundColor: 'yellow',
     width: '80%',
+    padding: 10
+  },
+  username: {
+    fontWeight: 'bold',
+  },
+  date: {
+    color: theme.colors.textSecondary,
+    marginBottom: 5,
   }
 });
 
@@ -45,7 +54,6 @@ const RepositoryInfo = ({ repository }) => {
 
 const ReviewItem = ({ review }) => {
   // Single review item
-  console.log(review)
   return (
     <View style={styles.reviewItem}>
       <View style={styles.ratingLayout}>
@@ -54,8 +62,8 @@ const ReviewItem = ({ review }) => {
         </View>
       </View>
       <View style={styles.reviewLayout}>
-        <Text>{review.user.username}</Text>
-        <Text>{review.createdAt}</Text>
+        <Text style={styles.username}>{review.user.username}</Text>
+        <Text style={styles.date}>{format(new Date(review.createdAt.substring(0, 10)),  "d.M.y")}</Text>
         <Text>{review.text}</Text>
       </View>
     </View>
