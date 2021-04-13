@@ -13,12 +13,28 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   ratingLayout: {
-    backgroundColor: 'green',
-    width: '30%',
+    width: '20%',
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: 10,
   },
-  infoLayout: {
+  ratingCircle: {
+    width: 50,
+    height: 50,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: '#0366d6',
+    borderWidth: 3,
+    borderRadius: '50%',
+  },
+  rating: {
+    fontSize: '1.3em',
+    color: '#0366d6',
+  },
+  reviewLayout: {
     backgroundColor: 'yellow',
-    width: '70%',
+    width: '80%',
   }
 });
 
@@ -29,15 +45,19 @@ const RepositoryInfo = ({ repository }) => {
 
 const ReviewItem = ({ review }) => {
   // Single review item
+  console.log(review)
   return (
     <View style={styles.reviewItem}>
       <View style={styles.ratingLayout}>
-        <Text>Rating</Text>
+        <View style={styles.ratingCircle}>
+          <Text style={styles.rating}>{review.rating}</Text>
+        </View>
       </View>
-      <View style={styles.infoLayout}>
-        <Text>Info</Text>
+      <View style={styles.reviewLayout}>
+        <Text>{review.user.username}</Text>
+        <Text>{review.createdAt}</Text>
+        <Text>{review.text}</Text>
       </View>
-      <Text>Reviews here</Text>
     </View>
   )
 };
