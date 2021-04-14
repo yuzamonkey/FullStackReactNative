@@ -4,6 +4,8 @@ import { Formik } from 'formik'
 import FormikTextInput from './FormikTextInput'
 import theme from '../theme'
 import * as yup from 'yup';
+import { useHistory } from 'react-router-native'
+import useCreateReview from '../hooks/useCreateReview'
 
 const styles = StyleSheet.create({
   layout: {
@@ -42,21 +44,26 @@ const validationSchema = yup.object().shape({
     .string()
     .required('Repository name is required'),
   rating: yup
-    .string()
+    .number()
+    .min(0)
+    .max(100)
     .required('Rating is required'),
 });
 
 
 const CreateReview = () => {
-  /**
-  Repository owner's username is a required string
-  Repository's name is a required string
-  Rating is a required number between 0 and 100
-  Review is a optional string
-  */
+  const [createReview] = useCreateReview();
+  const history = useHistory();
 
   const onSubmit = async (values) => {
     console.log("ON SUBMIT CALLED", values)
+    const { ownerName, repositoryName, rating, review } = values
+    try {
+      const { data } = await createReview({ ownerName, repositoryName, rating, review })
+      console.log("SUCCESS AT CREATING REVIEW")
+    } catch (e) {
+      console.log("ERROR (create review on submit)", e)
+    }
   }
 
   return (
@@ -66,7 +73,7 @@ const CreateReview = () => {
           <FormikTextInput name="ownerName" placeholder="Repository owner name" />
           <FormikTextInput name="repositoryName" placeholder="Repository name" />
           <FormikTextInput name="rating" placeholder="Rating between 0 to 100" />
-          <FormikTextInput name="review" placeholder="Review" />
+          <FormikTextInput name="review" placeholder="Review" multiline={true} />
           <Pressable onPress={handleSubmit}>
             <View style={styles.submitButton}>
               <Text style={styles.submitText}>Create a review</Text>
