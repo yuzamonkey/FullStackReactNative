@@ -9,18 +9,17 @@ const useCreateReview = () => {
       console.log("USE 'CREATE REVIEW' SUCCESS")
     },
     onError: (error) => {
-      console.log("ERROR ON 'CREATE REVIEW' MUTATION")
+      console.log("ERROR ON 'CREATE REVIEW' MUTATION", error)
     }, 
   });
 
-
-  const createReview = async ( { ownerName, repositoryName, rating, review }) => {
-    // call the mutate function here with the right arguments
-    const result = await mutate({ variables:  { ownerName, repositoryName, rating, review } })
-    console.log("RESULT AT CREATE REVIEW")
+  const createReview = async ( { ownerName, repositoryName, rating, text }) => {
+    //console.log("Create review at use class:", ownerName, repositoryName, rating, text)
+    const result = await mutate({ variables:  { repositoryName, ownerName, rating, text } })
+    //console.log("RESULT AT CREATE REVIEW", result)
     return result;
-
   };
+
   return [createReview, result];
 };
 

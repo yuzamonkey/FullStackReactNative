@@ -33,7 +33,7 @@ const initialValues = {
   ownerName: '',
   repositoryName: '',
   rating: '',
-  review: '',
+  text: '',
 }
 
 const validationSchema = yup.object().shape({
@@ -56,13 +56,13 @@ const CreateReview = () => {
   const history = useHistory();
 
   const onSubmit = async (values) => {
-    console.log("ON SUBMIT CALLED", values)
-    const { ownerName, repositoryName, rating, review } = values
+    const { ownerName, repositoryName, rating: ratingString, text } = values
     try {
-      const { data } = await createReview({ ownerName, repositoryName, rating, review })
-      console.log("SUCCESS AT CREATING REVIEW")
+      const rating = parseInt(ratingString)
+      const data = await createReview({ ownerName, repositoryName, rating, text })
+      history.push(`/${data.data.createReview.repositoryId}`)
     } catch (e) {
-      console.log("ERROR (create review on submit)", e)
+      console.log("ERROR (create review onSubmit method)", e)
     }
   }
 
@@ -73,7 +73,7 @@ const CreateReview = () => {
           <FormikTextInput name="ownerName" placeholder="Repository owner name" />
           <FormikTextInput name="repositoryName" placeholder="Repository name" />
           <FormikTextInput name="rating" placeholder="Rating between 0 to 100" />
-          <FormikTextInput name="review" placeholder="Review" multiline={true} />
+          <FormikTextInput name="text" placeholder="Review" multiline={true} />
           <Pressable onPress={handleSubmit}>
             <View style={styles.submitButton}>
               <Text style={styles.submitText}>Create a review</Text>
