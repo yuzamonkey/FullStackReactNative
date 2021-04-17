@@ -39,12 +39,17 @@ const initialValues = {
 const validationSchema = yup.object().shape({
   username: yup
     .string()
+    .min(1)
+    .max(30)
     .required('Username is required'),
   password: yup
     .string()
+    .min(5)
+    .max(50)
     .required('Password is required'),
   passwordConfirmation: yup
     .string()
+    .oneOf([yup.ref('password'), null])
     .required('Password confirmation is required')
 });
 
