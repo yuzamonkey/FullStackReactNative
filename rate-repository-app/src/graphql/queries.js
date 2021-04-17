@@ -30,25 +30,48 @@ export const GET_REPOSITORY = gql`
   }
 `
 
+// export const GET_REPOSITORIES = gql`
+//   query {
+//     repositories {
+//       edges {
+//         node {
+//           id,
+//           fullName, 
+//           description,
+//           language, 
+//           stargazersCount, 
+//           forksCount, 
+//           reviewCount,
+//           ratingAverage,
+//           ownerAvatarUrl
+//         }
+//       }
+//     }
+//   }
+// `;
+
 export const GET_REPOSITORIES = gql`
-  query {
-    repositories {
-      edges {
-        node {
-          id,
-          fullName, 
-          description,
-          language, 
-          stargazersCount, 
-          forksCount, 
-          reviewCount,
-          ratingAverage,
-          ownerAvatarUrl
-        }
+query ($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection) {
+  repositories (orderBy: $orderBy, orderDirection: $orderDirection){
+    edges {
+      node {
+        id,
+        fullName, 
+        description,
+        language, 
+        stargazersCount, 
+        forksCount, 
+        reviewCount,
+        ratingAverage,
+        ownerAvatarUrl
       }
     }
   }
+}
 `;
+
+
+
 
 export const GET_AUTHORIZED_USER_DATA = gql`
   query {

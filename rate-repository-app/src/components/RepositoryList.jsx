@@ -61,45 +61,37 @@ export const RepositoryListContainer = ({ repositories }) => {
 };
 
 const RepositoryList = () => {
-  const { repositories } = useRepositories();
-  const [argument, setArgument] = React.useState('CREATED AT')
+  const [orderBy, setOrderBy] = React.useState('CREATED_AT')
   const [orderDirection, setOrderDirection] = React.useState('DESC')
+  const { repositories } = useRepositories(orderBy, orderDirection);
   const [selectedOrder, setSelectedOrder] = React.useState('Latest repositories')
   const [visible, setVisible] = React.useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
-  const handlePress = () => {
-    console.log(selectedOrder, argument, orderDirection)
-  }
-
   return (
-
       <Provider theme={theme}>
         <View style={styles.menuToggle}>
           <Menu
             visible={visible}
             onDismiss={closeMenu}
             anchor={<Button onPress={openMenu} style={styles.menuButton}>{selectedOrder}</Button>}>
-            <Menu.Item onPress={async () => {
+            <Menu.Item onPress={() => {
               setSelectedOrder("Latest repositories") 
-              setArgument('CREATED AT')
+              setOrderBy('CREATED_AT')
               setOrderDirection('DESC')
-              handlePress()
               closeMenu()
             }} title="Latest repositories" />
             <Menu.Item onPress={() => {
               setSelectedOrder("Highest rated repositories") 
-              setArgument('RATING AVERAGE')
+              setOrderBy('RATING_AVERAGE')
               setOrderDirection('DESC')
-              handlePress()
               closeMenu()
               }} title="Highest rated repositories" />
             <Menu.Item onPress={() => {
               setSelectedOrder("Lowest rated repositories") 
-              setArgument('RATING AVERAGE')
+              setOrderBy('RATING_AVERAGE')
               setOrderDirection('ASC')
-              handlePress()
               closeMenu()
               }} title="Lowest rated repositories" />
           </Menu>
