@@ -9,6 +9,6 @@ const useRepositories = () => {
   } else {
     return { repositories: undefined }
   }
-
 }
+
 export default useRepositories;
