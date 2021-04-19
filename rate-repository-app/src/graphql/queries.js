@@ -30,29 +30,9 @@ export const GET_REPOSITORY = gql`
   }
 `
 
-// export const GET_REPOSITORIES = gql`
-//   query {
-//     repositories {
-//       edges {
-//         node {
-//           id,
-//           fullName, 
-//           description,
-//           language, 
-//           stargazersCount, 
-//           forksCount, 
-//           reviewCount,
-//           ratingAverage,
-//           ownerAvatarUrl
-//         }
-//       }
-//     }
-//   }
-// `;
-
 export const GET_REPOSITORIES = gql`
-query ($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection) {
-  repositories (orderBy: $orderBy, orderDirection: $orderDirection){
+query ($searchKeyword: String, $orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection) {
+  repositories (searchKeyword: $searchKeyword, orderBy: $orderBy, orderDirection: $orderDirection){
     edges {
       node {
         id,

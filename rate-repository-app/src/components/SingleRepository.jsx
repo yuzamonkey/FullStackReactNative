@@ -27,10 +27,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderColor: '#0366d6',
     borderWidth: 3,
-    borderRadius: '50%',
+    borderRadius: 50,
   },
   rating: {
-    fontSize: '1.3em',
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#0366d6',
   },

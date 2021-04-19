@@ -3,7 +3,8 @@ import useRepositories from '../hooks/useRepositories'
 import { FlatList, View, StyleSheet, Pressable } from 'react-native';
 import { useHistory } from 'react-router-native'
 import RepositoryItem from './RepositoryItem'
-import { Button, Menu, Provider, DefaultTheme } from 'react-native-paper';
+import { Button, Menu, Provider, DefaultTheme, Searchbar } from 'react-native-paper';
+import { useDebouncedCallback } from 'use-debounce'
 
 const theme = {
   ...DefaultTheme,
@@ -21,7 +22,6 @@ const styles = StyleSheet.create({
   },
   menuToggle: {
     flexDirection: 'row',
-    justifyContent: 'start',
   },
   menuButton: {
     color: 'green',
@@ -61,43 +61,56 @@ export const RepositoryListContainer = ({ repositories }) => {
 };
 
 const RepositoryList = () => {
+  const [textInput, setTextInput] = React.useState('')
+  const [searchKeyword, setSearchKeyword] = React.useState('')
   const [orderBy, setOrderBy] = React.useState('CREATED_AT')
   const [orderDirection, setOrderDirection] = React.useState('DESC')
-  const { repositories } = useRepositories(orderBy, orderDirection);
+  const { repositories } = useRepositories(searchKeyword, orderBy, orderDirection)
   const [selectedOrder, setSelectedOrder] = React.useState('Latest repositories')
   const [visible, setVisible] = React.useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
+  const debounced = useDebouncedCallback(
+    (keyword) => {
+      setSearchKeyword(keyword);
+    }, 500);
+
+  const onChangeSearch = keyword => {
+    setTextInput(keyword)
+    debounced(keyword)
+  };
+
   return (
-      <Provider theme={theme}>
-        <View style={styles.menuToggle}>
-          <Menu
-            visible={visible}
-            onDismiss={closeMenu}
-            anchor={<Button onPress={openMenu} style={styles.menuButton}>{selectedOrder}</Button>}>
-            <Menu.Item onPress={() => {
-              setSelectedOrder("Latest repositories") 
-              setOrderBy('CREATED_AT')
-              setOrderDirection('DESC')
-              closeMenu()
-            }} title="Latest repositories" />
-            <Menu.Item onPress={() => {
-              setSelectedOrder("Highest rated repositories") 
-              setOrderBy('RATING_AVERAGE')
-              setOrderDirection('DESC')
-              closeMenu()
-              }} title="Highest rated repositories" />
-            <Menu.Item onPress={() => {
-              setSelectedOrder("Lowest rated repositories") 
-              setOrderBy('RATING_AVERAGE')
-              setOrderDirection('ASC')
-              closeMenu()
-              }} title="Lowest rated repositories" />
-          </Menu>
-        </View>
-        <RepositoryListContainer repositories={repositories} />
-      </Provider>
+    <Provider theme={theme}>
+      <Searchbar placeholder="Search" onChangeText={onChangeSearch} value={textInput} />
+      <View style={styles.menuToggle}>
+        <Menu
+          visible={visible}
+          onDismiss={closeMenu}
+          anchor={<Button onPress={openMenu} style={styles.menuButton}>{selectedOrder}</Button>}>
+          <Menu.Item onPress={() => {
+            setSelectedOrder("Latest repositories")
+            setOrderBy('CREATED_AT')
+            setOrderDirection('DESC')
+            closeMenu()
+          }} title="Latest repositories" />
+          <Menu.Item onPress={() => {
+            setSelectedOrder("Highest rated repositories")
+            setOrderBy('RATING_AVERAGE')
+            setOrderDirection('DESC')
+            closeMenu()
+          }} title="Highest rated repositories" />
+          <Menu.Item onPress={() => {
+            setSelectedOrder("Lowest rated repositories")
+            setOrderBy('RATING_AVERAGE')
+            setOrderDirection('ASC')
+            closeMenu()
+          }} title="Lowest rated repositories" />
+        </Menu>
+      </View>
+      <RepositoryListContainer repositories={repositories} />
+    </Provider>
 
   )
 }
