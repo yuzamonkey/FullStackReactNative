@@ -31,8 +31,14 @@ export const GET_REPOSITORY = gql`
 `
 
 export const GET_REPOSITORIES = gql`
-query ($searchKeyword: String, $orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection) {
-  repositories (searchKeyword: $searchKeyword, orderBy: $orderBy, orderDirection: $orderDirection){
+query (
+  $first: Int,
+  $after: String,
+  $searchKeyword: String,
+  $orderBy: AllRepositoriesOrderBy,
+  $orderDirection: OrderDirection
+  ) {
+  repositories (first: $first, after: $after, searchKeyword: $searchKeyword, orderBy: $orderBy, orderDirection: $orderDirection){
     edges {
       node {
         id,
@@ -45,6 +51,12 @@ query ($searchKeyword: String, $orderBy: AllRepositoriesOrderBy, $orderDirection
         ratingAverage,
         ownerAvatarUrl
       }
+      cursor
+    }
+    pageInfo {
+      endCursor
+      startCursor
+      hasNextPage
     }
   }
 }

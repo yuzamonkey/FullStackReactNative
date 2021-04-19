@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
 });
 
 const RepositoryInfo = ({ repository }) => {
-  // Repository's information implemented in the previous exercise
   return <SingleRepositoryItem repository={repository} />
 };
 

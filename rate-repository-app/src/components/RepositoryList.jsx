@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-export const RepositoryListContainer = ({ repositories }) => {
+export const RepositoryListContainer = ({ repositories, onEndReach }) => {
   const history = useHistory()
 
   const repositoryNodes = repositories
@@ -56,6 +56,8 @@ export const RepositoryListContainer = ({ repositories }) => {
       renderItem={renderItem}
       keyExtractor={item => item.id}
       testID='repositoryListContainer'
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
     />
   )
 };
@@ -65,7 +67,9 @@ const RepositoryList = () => {
   const [searchKeyword, setSearchKeyword] = React.useState('')
   const [orderBy, setOrderBy] = React.useState('CREATED_AT')
   const [orderDirection, setOrderDirection] = React.useState('DESC')
-  const { repositories } = useRepositories(searchKeyword, orderBy, orderDirection)
+  const first = 6
+  const [after, setAfter] = React.useState('')
+  const { repositories, fetchMore } = useRepositories({first, after, searchKeyword, orderBy, orderDirection})
   const [selectedOrder, setSelectedOrder] = React.useState('Latest repositories')
   const [visible, setVisible] = React.useState(false);
   const openMenu = () => setVisible(true);
@@ -80,6 +84,12 @@ const RepositoryList = () => {
     setTextInput(keyword)
     debounced(keyword)
   };
+
+  const onEndReach = () => {
+    setAfter(repositories.pageInfo.endCursor)
+    fetchMore()
+  }
+
 
   return (
     <Provider theme={theme}>
@@ -109,7 +119,7 @@ const RepositoryList = () => {
           }} title="Lowest rated repositories" />
         </Menu>
       </View>
-      <RepositoryListContainer repositories={repositories} />
+      <RepositoryListContainer repositories={repositories} onEndReach={onEndReach}/>
     </Provider>
 
   )
