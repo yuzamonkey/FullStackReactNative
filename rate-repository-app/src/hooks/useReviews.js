@@ -10,8 +10,6 @@ const useReviews = (variables) => {
     }
   })
 
-  console.log("useReviews data", data?.repository.reviews)
-
   const handleFetchMore = () => {
     const canFetchMore = !loading && data?.repository.reviews.pageInfo.hasNextPage;
     if (!canFetchMore) {
