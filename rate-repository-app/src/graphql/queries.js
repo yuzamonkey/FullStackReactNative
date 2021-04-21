@@ -1,5 +1,37 @@
 import { gql } from '@apollo/client';
 
+export const GET_REVIEWS = gql`
+  query ($first: Int, $after: String, $id: ID!){
+    repository(id: $id) {
+      id
+      fullName
+      reviews(first: $first, after: $after) {
+        totalCount
+        edges {
+          node {
+            id
+            text
+            rating
+            createdAt
+            repositoryId
+            user {
+              id
+              username
+            }
+          }
+          cursor
+        }
+        pageInfo {
+          endCursor
+          startCursor
+          hasNextPage
+        }
+      }
+    }
+  }
+`
+
+
 export const GET_REPOSITORY = gql`
   query getRepository($id: ID!) {
     repository(id: $id) {
@@ -61,8 +93,6 @@ query (
   }
 }
 `;
-
-
 
 
 export const GET_AUTHORIZED_USER_DATA = gql`

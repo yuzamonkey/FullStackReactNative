@@ -2,6 +2,7 @@ import React from 'react'
 import SingleRepositoryItem from './SingleRepositoryItem'
 import { useParams } from 'react-router-native'
 import useRepository from '../hooks/useRepository'
+import useReviews from '../hooks/useReviews'
 import { FlatList, Text, StyleSheet, View } from 'react-native'
 import theme from '../theme'
 import { format } from 'date-fns'
@@ -73,9 +74,13 @@ const SingleRepository = () => {
   // ...
   const { id } = useParams()
   const { repository } = useRepository(id);
+  const first = 2
+  const after = ''
+  const { reviews: reviewData, fetchMore } = useReviews({first, after, id})
+  console.log("REVIEW DATA", reviewData)
 
-  const reviews = repository
-    ? repository.reviews.edges.map(edge => edge.node)
+  const reviews = reviewData
+    ? reviewData.edges.map(edge => edge.node)
     : [];
 
   return (

@@ -6,7 +6,7 @@ const useRepositories = (variables) => {
     fetchPolicy: 'cache-and-network',
     variables,
     onCompleted: () => {
-      console.log("COMPLETED WITH VARS", variables)
+      console.log("useRepositories COMPLETED WITH VARS", variables)
     }
   })
 
