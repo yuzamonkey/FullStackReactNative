@@ -94,12 +94,38 @@ query (
 }
 `;
 
-
 export const GET_AUTHORIZED_USER_DATA = gql`
   query {
     authorizedUser {
       id
       username
+    }
+  }
+`
+
+export const GET_AUTHORIZED_USER_DATA_WITH_REVIEWS = gql`
+query getAuthorizedUser($includeReviews: Boolean!) {
+    authorizedUser {
+      id
+      username
+      reviews @include(if: $includeReviews) {
+        edges {
+          node {
+						id
+            text
+            rating
+            createdAt
+            repositoryId
+            repository {
+              fullName
+            }
+            user {
+              id
+              username
+            }
+          }
+        }
+      }
     }
   }
 `
