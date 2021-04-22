@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
 
 const AppBar = () => {
   const { data } = useQuery(GET_AUTHORIZED_USER_DATA)
-  //console.log("AUTHORIZED USER DATA", data)
 
   return (
     <View style={styles.container}>

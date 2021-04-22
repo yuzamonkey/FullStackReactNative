@@ -84,24 +84,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const ReviewItem = ({ review }) => {
-  const history = useHistory()
-  const [deleteReview] = useDeleteReview()
-
-  const handleViewRepositoryPress = () => {
-    history.push(`/${review.repositoryId}`)
-  }
-
-  const deleteConfirmedReview = async () => {
-    console.log("DELETION CONFIRMED")
-    const id = review.id
-    try {
-      const data = await deleteReview({ id })
-      console.log("DATA FROM DELETE REVIEW SUCCESS", data)
-    } catch (e) {
-      console.log("ERROR ON DELETE REVIEW: ", e)
-    }
-  }
+const ReviewItem = ({ review, handleDelete, handleViewRepository }) => {
 
   const handleDeletePress = () => {
     Alert.alert(
@@ -113,7 +96,7 @@ const ReviewItem = ({ review }) => {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        { text: "Delete", onPress: () => deleteConfirmedReview() }
+        { text: "Delete", onPress: () => handleDelete(review.id) }
       ]
     );
   }
@@ -133,7 +116,7 @@ const ReviewItem = ({ review }) => {
         </View>
       </View>
       <View style={styles.buttonsLayout}>
-        <Pressable onPress={handleViewRepositoryPress}>
+        <Pressable onPress={() => handleViewRepository(review.repositoryId)}>
           <View style={styles.viewRepositoryButton}>
             <Text style={styles.linkText}>View repository</Text>
           </View>
@@ -149,7 +132,9 @@ const ReviewItem = ({ review }) => {
 };
 
 const MyReviews = () => {
-  const { data } = useQuery(GET_AUTHORIZED_USER_DATA_WITH_REVIEWS, {
+  const [deleteReview] = useDeleteReview()
+  const history = useHistory()
+  const { data, refetch } = useQuery(GET_AUTHORIZED_USER_DATA_WITH_REVIEWS, {
     variables: {
       includeReviews: true
     }
@@ -158,10 +143,23 @@ const MyReviews = () => {
     ? data.authorizedUser.reviews.edges.map(edge => edge.node)
     : []
 
+  const handleViewRepository = (repositoryId) => {
+    history.push(`/${repositoryId}`)
+  }
+
+  const handleDelete = async (id) => {
+    try {
+      const data = await deleteReview({ id })
+      refetch()
+    } catch (e) {
+      console.log("ERROR ON DELETE REVIEW: ", e)
+    }
+  }
+
   return (
     <FlatList
       data={reviews}
-      renderItem={({ item }) => <ReviewItem review={item} />}
+      renderItem={({ item }) => <ReviewItem review={item} handleDelete={handleDelete} handleViewRepository={handleViewRepository} />}
       keyExtractor={({ id }) => id}
     />
   )
