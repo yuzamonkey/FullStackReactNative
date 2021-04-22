@@ -48,7 +48,6 @@ const SingleRepositoryItem = ({repository}) => {
         </Pressable>
       </View>
       <View>
-        
       </View>
     </View>
 
