@@ -14,9 +14,7 @@ const useCreateReview = () => {
   });
 
   const createReview = async ( { ownerName, repositoryName, rating, text }) => {
-    //console.log("Create review at use class:", ownerName, repositoryName, rating, text)
     const result = await mutate({ variables:  { repositoryName, ownerName, rating, text } })
-    //console.log("RESULT AT CREATE REVIEW", result)
     return result;
   };
 

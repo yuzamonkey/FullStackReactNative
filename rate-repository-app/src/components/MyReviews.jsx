@@ -1,10 +1,11 @@
 import React from 'react'
-import { Text, StyleSheet, FlatList, View, Pressable } from 'react-native'
+import { Text, StyleSheet, FlatList, View, Pressable, Alert } from 'react-native'
 import { useQuery } from '@apollo/client'
 import { GET_AUTHORIZED_USER_DATA_WITH_REVIEWS } from '../graphql/queries';
 import theme from '../theme'
 import { format } from 'date-fns'
 import { useHistory } from 'react-router-native'
+import useDeleteReview from '../hooks/useDeleteReview'
 
 const styles = StyleSheet.create({
   layout: {
@@ -85,9 +86,36 @@ const styles = StyleSheet.create({
 
 const ReviewItem = ({ review }) => {
   const history = useHistory()
+  const [deleteReview] = useDeleteReview()
 
-  const handleViewRepositoryClick = () => {
+  const handleViewRepositoryPress = () => {
     history.push(`/${review.repositoryId}`)
+  }
+
+  const deleteConfirmedReview = async () => {
+    console.log("DELETION CONFIRMED")
+    const id = review.id
+    try {
+      const data = await deleteReview({ id })
+      console.log("DATA FROM DELETE REVIEW SUCCESS", data)
+    } catch (e) {
+      console.log("ERROR ON DELETE REVIEW: ", e)
+    }
+  }
+
+  const handleDeletePress = () => {
+    Alert.alert(
+      "Delete review",
+      "Are you sure you want to delete this review?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Delete", onPress: () => deleteConfirmedReview() }
+      ]
+    );
   }
 
   return (
@@ -105,12 +133,12 @@ const ReviewItem = ({ review }) => {
         </View>
       </View>
       <View style={styles.buttonsLayout}>
-        <Pressable onPress={handleViewRepositoryClick}>
+        <Pressable onPress={handleViewRepositoryPress}>
           <View style={styles.viewRepositoryButton}>
             <Text style={styles.linkText}>View repository</Text>
           </View>
         </Pressable>
-        <Pressable>
+        <Pressable onPress={handleDeletePress}>
           <View style={styles.deleteButton}>
             <Text style={styles.linkText}>Delete review</Text>
           </View>
