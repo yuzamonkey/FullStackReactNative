@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client'
 import { GET_AUTHORIZED_USER_DATA_WITH_REVIEWS } from '../graphql/queries';
 import theme from '../theme'
 import { format } from 'date-fns'
+import { useHistory } from 'react-router-native'
 
 const styles = StyleSheet.create({
   layout: {
@@ -83,6 +84,12 @@ const styles = StyleSheet.create({
 });
 
 const ReviewItem = ({ review }) => {
+  const history = useHistory()
+
+  const handleViewRepositoryClick = () => {
+    history.push(`/${review.repositoryId}`)
+  }
+
   return (
     <View style={styles.layout}>
       <View style={styles.reviewItem}>
@@ -98,7 +105,7 @@ const ReviewItem = ({ review }) => {
         </View>
       </View>
       <View style={styles.buttonsLayout}>
-        <Pressable>
+        <Pressable onPress={handleViewRepositoryClick}>
           <View style={styles.viewRepositoryButton}>
             <Text style={styles.linkText}>View repository</Text>
           </View>
